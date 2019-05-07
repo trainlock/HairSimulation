@@ -1,0 +1,33 @@
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/limpan/Documents/Sidoprojekt/HairSimulation
+-- The C compiler identification is AppleClang 10.0.0.10001044
+-- The CXX compiler identification is AppleClang 10.0.0.10001044
+-- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc
+-- Check for working C compiler: /Library/Developer/CommandLineTools/usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++
+-- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+64 bits compiler detected
+CMake Deprecation Warning at external/glfw-3.2.1/CMakeLists.txt:10 (cmake_policy):
+  The OLD behavior for policy CMP0042 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+
+
+-- Could NOT find Vulkan (missing: VULKAN_LIBRARY VULKAN_INCLUDE_DIR) 
+-- Using Cocoa for window creation
+All include dirs: /Users/limpan/Documents/Sidoprojekt/HairSimulation/include/GL;/Users/limpan/Documents/Sidoprojekt/HairSimulation/external/glm;/Users/limpan/Documents/Sidoprojekt/HairSimulation/include;/Users/limpan/Documents/Sidoprojekt/HairSimulation/cmake
+All include libraries: /System/Library/Frameworks/OpenGL.framework;/System/Library/Frameworks/OpenGL.framework;/System/Library/Frameworks/OpenGL.framework;/usr/local/lib/libGLEW.dylib;glfw
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/limpan/Documents/Sidoprojekt/HairSimulation/cmake-build-debug
