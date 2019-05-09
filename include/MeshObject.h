@@ -17,9 +17,7 @@
 
 /* A struct to hold geometry data and send it off for rendering */
 class MeshObject {
-
 public:
-
     /* Constructor: initialize a MeshObject to all zeros */
     MeshObject();
 
@@ -69,7 +67,6 @@ private:
     GLuint *indexarray;   // Element index array
 
     void printError(const char *errtype, const char *errmsg);
-
 };
 
 #endif //OPENGL_TEMPLATE_MESHOBJECT_H

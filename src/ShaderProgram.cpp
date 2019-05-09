@@ -50,10 +50,10 @@ ShaderProgram::~ShaderProgram() {
 }
 
 GLuint ShaderProgram::AttachShader(GLuint shaderType, std::string source) {
-    GLuint sh = compile(shaderType, source.c_str());
+    GLuint sh = Compile(shaderType, source.c_str());
     shader_programs_.push_back(sh);
 
-    std::cout << "Attached shader of type: '" << getShaderType(shaderType) << "'\n";
+    std::cout << "Attached shader of type: '" << GetShaderType(shaderType) << "'\n";
 
     return sh;
 }
@@ -83,7 +83,7 @@ void ShaderProgram::ConfigureShaderProgram() {
     }
 }
 
-const std::string ShaderProgram::getShaderType(GLuint type) {
+const std::string ShaderProgram::GetShaderType(GLuint type) {
     std::string name;
     switch (type) {
         case GL_VERTEX_SHADER:
@@ -108,7 +108,7 @@ const std::string ShaderProgram::getShaderType(GLuint type) {
     return name;
 }
 
-GLuint ShaderProgram::compile(GLuint type, GLchar const *source) {
+GLuint ShaderProgram::Compile(GLuint type, GLchar const *source) {
     GLuint shader = glCreateShader(type);
     glShaderSource(shader, 1, &source, NULL);
     glCompileShader(shader);
@@ -119,7 +119,7 @@ GLuint ShaderProgram::compile(GLuint type, GLchar const *source) {
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
         std::string log(logSize, ' ');
         glGetShaderInfoLog(shader, logSize, &logSize, &log[0]);
-        std::cerr << "Failed to compile shadertype: " << getShaderType(type) << std::endl
+        std::cerr << "Failed to compile shadertype: " << GetShaderType(type) << std::endl
         << log << std::endl;
         glDeleteShader(shader); // Don't leak the shader.
         exit(EXIT_FAILURE);

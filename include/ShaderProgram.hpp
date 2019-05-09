@@ -30,7 +30,7 @@ public:
         glUseProgram(prog);
     }
 
-    static const std::string getShaderType(GLuint type);
+    static const std::string GetShaderType(GLuint type);
 
     GLint MV_Loc, P_Loc, lDir_Loc, camPos_Loc = -1;
     GLint tmpTex = -1;
@@ -46,5 +46,5 @@ private:
     std::vector<GLuint> shader_programs_;
     GLuint prog;
 
-    GLuint compile(GLuint type, GLchar const *source);
+    GLuint Compile(GLuint type, GLchar const *source);
 };

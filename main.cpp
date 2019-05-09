@@ -37,10 +37,9 @@ GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
 // Camera variables
-Camera camera(glm::vec3(1.0f, 1.0f, 1.0f));
+Camera camera(glm::vec3(3.0f, 0.0f, 2.0f));
 //Camera camera(glm::vec3(10.0f, 0.0f, 0.0f), glm::vec3(0.f, 1.f, 0.f), 180, 0);
-//GLfloat lastX = 400;
-//GLfloat lastY = 300;
+
 float lastX = WIDTH / 2.0f;
 float lastY = HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -75,8 +74,7 @@ int main(){
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    //glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     // Create a GLFWwindow object that we can use for GLFW's functions
     GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "HairSimulation", NULL, NULL);
@@ -96,6 +94,11 @@ int main(){
         return -1;
     }
 
+    // Show some useful information on the GL context
+    std::cout << "GL vendor:       " << glGetString(GL_VENDOR) << std::endl;
+    std::cout << "GL renderer:     " << glGetString(GL_RENDERER) << std::endl;
+    std::cout << "GL version:      " << glGetString(GL_VERSION) << std::endl;
+
     std::cout << "GLM, GLFW and Window fixed!" << std::endl;
 
     /************** Callback functions **************/
@@ -108,12 +111,9 @@ int main(){
     //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     /************** Models **************/
-    //std::cout << "Time to model!" << std::endl;
-    /*
     MeshObject triangle;
     triangle.createTriangle();
     std::cout << "Created triangle!" << std::endl;
-     */
 
     //Texture mainTexture = Texture("../textures/sky.tga");
     Texture mainTexture = Texture("../textures/wall.tga");
@@ -131,46 +131,15 @@ int main(){
     std::cout << "Connecting shaders!" << std::endl;
     /** Plain shader **/
 
-    //regularShader(); // Used when more than one shader is used
-    //GLint modelLocRegular = glGetUniformLocation(regularShader, "model");
+    regularShader(); // Used when more than one shader is used
+    GLint modelLocRegular = glGetUniformLocation(regularShader, "model");
     GLint viewLocRegular = glGetUniformLocation(regularShader, "view");
     GLint projLocRegular = glGetUniformLocation(regularShader, "projection");
 
-    ///*
     GLint mainTextureLocPlain = glGetUniformLocation(regularShader, "mainTexture");
     glUniform1i(mainTextureLocPlain, 0);
-    //*/
 
     std::cout << "Shaders connected!" << std::endl;
-
-    ///* Uncomment to remove manual triangle
-    float vertices[] = {
-            -0.5f, -0.5f, 0.0f, // left
-             0.5f, -0.5f, 0.0f, // right
-             0.0f,  0.5f, 0.0f  // top
-    };
-
-    unsigned int VBO, VAO;
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-    glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0);
-    // */
-
 
     std::cout << "Entering render loop!" << std::endl;
     /*******************************************
@@ -188,38 +157,23 @@ int main(){
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
-        ///*
+
         // Create camera transformation
         glm::mat4 view = camera.GetViewMatrix();
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WIDTH/(float)HEIGHT, 0.1f, 100.0f);
-        //glm::mat4 projection = glm::perspective(camera.Zoom, (float)WIDTH/(float)HEIGHT, 0.1f, 1000.0f);
-        //*/
-
-        /*
-        glm::mat4 view = camera.GetViewMatrix();
-        glm::mat4 projection = glm::perspective(camera.Zoom, (float)WIDTH/(float)HEIGHT, 0.1f, 1000.0f);
-        */
 
         /************** RENDERING **************/
 
         /************** Regular rendering **************/
         regularShader();
+        glUniformMatrix4fv(modelLocRegular, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(viewLocRegular, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projLocRegular, 1, GL_FALSE, glm::value_ptr(projection));
-
-        /*
-        triangle.render(true);
-        */
 
         glActiveTexture(GL_TEXTURE0 + 0); // Texture unit 0
         glBindTexture(GL_TEXTURE_2D, mainTexture.textureID);
 
-        ///*
-        // draw our first triangle
-        //glUseProgram(regularShader);
-        glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-        // */
+        triangle.render(true);
 
         /****************************************************/
 
@@ -227,10 +181,7 @@ int main(){
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-
     std::cout << "Hello, World!" << std::endl;
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
 
     // Terminate GLFW, clearing any resources allocated by GLFW.
     glfwTerminate();
@@ -287,4 +238,3 @@ void processInput(GLFWwindow *window){
         camera.ProcessKeyboard(RIGHT, deltaTime);
     }
 }
-
