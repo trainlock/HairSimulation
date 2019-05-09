@@ -111,9 +111,22 @@ int main(){
     //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     /************** Models **************/
+    /*
     MeshObject triangle;
     triangle.createTriangle();
-    std::cout << "Created triangle!" << std::endl;
+     */
+
+    ///*
+    MeshObject box;
+    box.createBox(2.0, 2.0, 2.0);
+    // */
+
+    /*
+    MeshObject sphere;
+    sphere.createSphere(2.0, 40);
+     */
+
+    std::cout << "Created model mesh!" << std::endl;
 
     //Texture mainTexture = Texture("../textures/sky.tga");
     Texture mainTexture = Texture("../textures/wall.tga");
@@ -173,7 +186,9 @@ int main(){
         glActiveTexture(GL_TEXTURE0 + 0); // Texture unit 0
         glBindTexture(GL_TEXTURE_2D, mainTexture.textureID);
 
-        triangle.render(true);
+        //triangle.render(true);
+        //box.render(true);
+        sphere.render(true);
 
         /****************************************************/
 
