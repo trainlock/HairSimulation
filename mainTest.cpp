@@ -87,7 +87,6 @@ int main(){
 
     // Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
     glewExperimental = GL_TRUE;
-    glEnable(GL_DEPTH_TEST);
 
     // Initialize GLEW to setup the OpenGL Function pointers
     if (glewInit() != GLEW_OK) {
@@ -127,59 +126,31 @@ int main(){
     sphere.createSphere(2.0, 40);
      */
 
-    ///*
     std::cout << "Created model mesh!" << std::endl;
 
     //Texture mainTexture = Texture("../textures/sky.tga");
     Texture mainTexture = Texture("../textures/wall.tga");
-    //*/
 
     /************** Shaders **************/
     std::cout << "Setting up shader!" << std::endl;
 
-    ///*
     // Build and compile the regular shader
-    //std::string regularVertFilename = "../shaders/regularShader.vert";
-    //std::string regularFragFilename = "../shaders/regularShader.frag";
-
-    std::string hairVertFilename = "../shaders/hairShader.vert";
-    std::string hairFragFilename = "../shaders/hairShader.frag";
-    std::string hairGeometryFilename = "../shaders/hairShader.gs";
-    //ShaderProgram regularShader(regularVertFilename, "", "", "", regularFragFilename);
-    ShaderProgram regularShader(hairVertFilename, "", "", hairGeometryFilename, hairFragFilename);
+    std::string vertexFilename = "../shaders/regularShader.vert";
+    std::string fragmentFilename = "../shaders/regularShader.frag";
+    ShaderProgram regularShader(vertexFilename, "", "", "", fragmentFilename);
     regularShader();
-    // */
-
-    /*
-    // Build and compile the hair shader
-    std::string hairVertFilename = "../shaders/hairShader.vert";
-    std::string hairFragFilename = "../shaders/hairShader.frag";
-    std::string hairGeometryFilename = "../shaders/hairShader.gs";
-    ShaderProgram hairShader(hairVertFilename, "", "", hairGeometryFilename, hairFragFilename);
-    hairShader();
-     */
 
     /************** Uniform Variables **************/
     std::cout << "Connecting shaders!" << std::endl;
+    /** Plain shader **/
 
-    /** Regular shader **/
-    ///*
-    regularShader();
-    //GLint modelLocRegular = glGetUniformLocation(regularShader, "model");
+    regularShader(); // Used when more than one shader is used
+    GLint modelLocRegular = glGetUniformLocation(regularShader, "model");
     GLint viewLocRegular = glGetUniformLocation(regularShader, "view");
     GLint projLocRegular = glGetUniformLocation(regularShader, "projection");
 
     GLint mainTextureLocPlain = glGetUniformLocation(regularShader, "mainTexture");
     glUniform1i(mainTextureLocPlain, 0);
-    // */
-
-    /** Hair shader **/
-    /*
-    hairShader();
-    GLint modelLocHair = glGetUniformLocation(hairShader, "model");
-    GLint viewLocHair = glGetUniformLocation(hairShader, "view");
-    GLint projLocHair = glGetUniformLocation(hairShader, "projection");
-     */
 
     std::cout << "Shaders connected!" << std::endl;
 
@@ -207,28 +178,13 @@ int main(){
         /************** RENDERING **************/
 
         /************** Regular rendering **************/
-        ///*
         regularShader();
-        //glUniformMatrix4fv(modelLocRegular, 1, GL_FALSE, glm::value_ptr(model));
+        glUniformMatrix4fv(modelLocRegular, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(viewLocRegular, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projLocRegular, 1, GL_FALSE, glm::value_ptr(projection));
-        // */
 
-        //triangle.render(false);
-        //box.render(false);
-        //sphere.render(false);
-
-        /*
         glActiveTexture(GL_TEXTURE0 + 0); // Texture unit 0
         glBindTexture(GL_TEXTURE_2D, mainTexture.textureID);
-         */
-
-        /*
-        hairShader();
-        glUniformMatrix4fv(modelLocHair, 1, GL_FALSE, glm::value_ptr(model));
-        glUniformMatrix4fv(viewLocHair, 1, GL_FALSE, glm::value_ptr(view));
-        glUniformMatrix4fv(projLocHair, 1, GL_FALSE, glm::value_ptr(projection));
-         */
 
         //triangle.render(true);
         box.render(true);

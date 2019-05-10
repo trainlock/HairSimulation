@@ -9,8 +9,6 @@ ShaderProgram::ShaderProgram(std::string vertex_shader_filename, std::string tes
                              std::string tessellation_eval_shader_filename, std::string geometry_shader_filename,
                              std::string fragment_shader_filename) {
 
-
-
     if (vertex_shader_filename != "") {
         auto v_source = FileReader::ReadFromFile(vertex_shader_filename);
         AttachShader(GL_VERTEX_SHADER, v_source);
@@ -46,7 +44,6 @@ ShaderProgram::~ShaderProgram() {
         glDeleteShader(shader_program);
     }
     glDeleteProgram(prog);
-
 }
 
 GLuint ShaderProgram::AttachShader(GLuint shaderType, std::string source) {
@@ -76,7 +73,7 @@ void ShaderProgram::ConfigureShaderProgram() {
         std::string log(length, ' ');
         glGetShaderInfoLog(prog, length, &length, &log[0]);
         std::cerr << "Failed to link shaderprogram : " << std::endl
-        << log << std::endl;
+                  << log << std::endl;
         exit(EXIT_FAILURE);
     } else {
         std::cout << "Shader linking complete!\n";
@@ -110,17 +107,20 @@ const std::string ShaderProgram::GetShaderType(GLuint type) {
 
 GLuint ShaderProgram::Compile(GLuint type, GLchar const *source) {
     GLuint shader = glCreateShader(type);
+
     glShaderSource(shader, 1, &source, NULL);
     glCompileShader(shader);
+
     GLint compiled = 0;
     glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+
     if (compiled == GL_FALSE) {
         GLint logSize = 0;
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logSize);
         std::string log(logSize, ' ');
         glGetShaderInfoLog(shader, logSize, &logSize, &log[0]);
         std::cerr << "Failed to compile shadertype: " << GetShaderType(type) << std::endl
-        << log << std::endl;
+                  << log << std::endl;
         glDeleteShader(shader); // Don't leak the shader.
         exit(EXIT_FAILURE);
     }
