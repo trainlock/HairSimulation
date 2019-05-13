@@ -37,7 +37,7 @@ GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
 // Camera variables
-Camera camera(glm::vec3(3.0f, 0.0f, 2.0f));
+Camera camera(glm::vec3(10.0f, 0.0f, 7.0f));
 //Camera camera(glm::vec3(10.0f, 0.0f, 0.0f), glm::vec3(0.f, 1.f, 0.f), 180, 0);
 
 float lastX = WIDTH / 2.0f;
@@ -61,15 +61,15 @@ void processInput(GLFWwindow *window);
 
 // The MAIN function, from here we start the application and run the rendering loop
 int main(){
-    std::cout << "Starting GLFW context, OpenGL 3.3 or higher" << std::endl;
+    std::cout << "Starting GLFW context, OpenGL 4.0 or higher" << std::endl;
 
     // Init GLFW
     if(!glfwInit()) {
         std::cout << "Failed to initialise GLFW" << std::endl;
         return 1;
     }
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
@@ -139,25 +139,27 @@ int main(){
 
     ///*
     // Build and compile the regular shader
-    //std::string regularVertFilename = "../shaders/regularShader.vert";
-    //std::string regularFragFilename = "../shaders/regularShader.frag";
+    std::string regularVertFilename = "../shaders/regularShader.vert";
+    std::string regularFragFilename = "../shaders/regularShader.frag";
+    ShaderProgram regularShader(regularVertFilename, "", "", "", regularFragFilename);
+    // */
 
+    /*
     std::string hairVertFilename = "../shaders/hairShader.vert";
     std::string hairFragFilename = "../shaders/hairShader.frag";
     std::string hairGeometryFilename = "../shaders/hairShader.gs";
-    //ShaderProgram regularShader(regularVertFilename, "", "", "", regularFragFilename);
     ShaderProgram regularShader(hairVertFilename, "", "", hairGeometryFilename, hairFragFilename);
     regularShader();
     // */
 
-    /*
+    ///*
     // Build and compile the hair shader
     std::string hairVertFilename = "../shaders/hairShader.vert";
     std::string hairFragFilename = "../shaders/hairShader.frag";
     std::string hairGeometryFilename = "../shaders/hairShader.gs";
     ShaderProgram hairShader(hairVertFilename, "", "", hairGeometryFilename, hairFragFilename);
     hairShader();
-     */
+    // */
 
     /************** Uniform Variables **************/
     std::cout << "Connecting shaders!" << std::endl;
@@ -165,7 +167,7 @@ int main(){
     /** Regular shader **/
     ///*
     regularShader();
-    //GLint modelLocRegular = glGetUniformLocation(regularShader, "model");
+    GLint modelLocRegular = glGetUniformLocation(regularShader, "model");
     GLint viewLocRegular = glGetUniformLocation(regularShader, "view");
     GLint projLocRegular = glGetUniformLocation(regularShader, "projection");
 
@@ -174,12 +176,12 @@ int main(){
     // */
 
     /** Hair shader **/
-    /*
+    ///*
     hairShader();
     GLint modelLocHair = glGetUniformLocation(hairShader, "model");
     GLint viewLocHair = glGetUniformLocation(hairShader, "view");
     GLint projLocHair = glGetUniformLocation(hairShader, "projection");
-     */
+    // */
 
     std::cout << "Shaders connected!" << std::endl;
 
@@ -209,30 +211,35 @@ int main(){
         /************** Regular rendering **************/
         ///*
         regularShader();
-        //glUniformMatrix4fv(modelLocRegular, 1, GL_FALSE, glm::value_ptr(model));
+        glUniformMatrix4fv(modelLocRegular, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(viewLocRegular, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projLocRegular, 1, GL_FALSE, glm::value_ptr(projection));
         // */
 
         //triangle.render(false);
-        //box.render(false);
+        box.render(false);
         //sphere.render(false);
 
-        /*
+        ///*
         glActiveTexture(GL_TEXTURE0 + 0); // Texture unit 0
         glBindTexture(GL_TEXTURE_2D, mainTexture.textureID);
-         */
+        // */
 
-        /*
+        ///*
         hairShader();
         glUniformMatrix4fv(modelLocHair, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(viewLocHair, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projLocHair, 1, GL_FALSE, glm::value_ptr(projection));
-         */
+        // */
 
         //triangle.render(true);
         box.render(true);
         //sphere.render(true);
+
+        ///*
+        glActiveTexture(GL_TEXTURE0 + 0); // Texture unit 0
+        glBindTexture(GL_TEXTURE_2D, mainTexture.textureID);
+        // */
 
         /****************************************************/
 
