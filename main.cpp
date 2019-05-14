@@ -157,7 +157,10 @@ int main(){
     std::string hairVertFilename = "../shaders/hairShader.vert";
     std::string hairFragFilename = "../shaders/hairShader.frag";
     std::string hairGeometryFilename = "../shaders/hairShader.gs";
-    ShaderProgram hairShader(hairVertFilename, "", "", hairGeometryFilename, hairFragFilename);
+    std::string hairTessCtrlFilename = "../shaders/hairShader.tc";
+    std::string hairTessEvalFilename = "../shaders/hairShader.te";
+    //ShaderProgram hairShader(hairVertFilename, "", "", hairGeometryFilename, hairFragFilename);
+    ShaderProgram hairShader(hairVertFilename, hairTessCtrlFilename, hairTessEvalFilename, hairGeometryFilename, hairFragFilename);
     hairShader();
     // */
 

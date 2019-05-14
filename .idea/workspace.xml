@@ -14,13 +14,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="af75d950-7b32-40eb-b3d1-de44f580c3a4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/shaders/hairShader.tc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shaders/hairShader.te" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/HairSimulation.dir/main.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/HairSimulation.dir/main.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/HairSimulation" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/HairSimulation" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shaders/hairShader.frag" beforeDir="false" afterPath="$PROJECT_DIR$/shaders/hairShader.frag" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shaders/hairShader.gs" beforeDir="false" afterPath="$PROJECT_DIR$/shaders/hairShader.gs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shaders/hairShader.vert" beforeDir="false" afterPath="$PROJECT_DIR$/shaders/hairShader.vert" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shaders/regularShader.frag" beforeDir="false" afterPath="$PROJECT_DIR$/shaders/regularShader.frag" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shaders/regularShader.vert" beforeDir="false" afterPath="$PROJECT_DIR$/shaders/regularShader.vert" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -38,8 +39,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
+            <state relative-caret-position="389">
+              <caret line="159" column="49" selection-start-line="159" selection-start-column="48" selection-end-line="159" selection-end-column="49" />
               <folding>
                 <element signature="e#248#266#0" expanded="true" />
                 <element signature="e#403#431#0" expanded="true" />
@@ -49,10 +50,28 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shaders/hairShader.te">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="6" column="17" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/shaders/hairShader.tc">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/shaders/hairShader.gs">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="11" selection-start-column="11" selection-end-column="11" />
+            <state relative-caret-position="75">
+              <caret line="5" column="19" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -60,8 +79,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/shaders/hairShader.vert">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="11" selection-start-column="11" selection-end-column="11" />
+            <state relative-caret-position="165">
+              <caret line="11" column="15" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -69,8 +88,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/shaders/hairShader.frag">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="11" selection-start-column="11" selection-end-column="11" />
+            <state relative-caret-position="135">
+              <caret line="9" column="53" selection-start-line="9" selection-start-column="53" selection-end-line="9" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -94,6 +113,13 @@
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="GLSL Shader" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -134,12 +160,15 @@
         <option value="$PROJECT_DIR$/mainTest.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/src/ShaderProgram.cpp" />
-        <option value="$PROJECT_DIR$/main.cpp" />
-        <option value="$PROJECT_DIR$/shaders/hairShader.gs" />
         <option value="$PROJECT_DIR$/shaders/hairShader.vert" />
-        <option value="$PROJECT_DIR$/shaders/hairShader.frag" />
         <option value="$PROJECT_DIR$/shaders/regularShader.frag" />
         <option value="$PROJECT_DIR$/shaders/regularShader.vert" />
+        <option value="$PROJECT_DIR$/shaders/hairShader.te.glsl" />
+        <option value="$PROJECT_DIR$/shaders/hairShader.gs" />
+        <option value="$PROJECT_DIR$/shaders/hairShader.tc" />
+        <option value="$PROJECT_DIR$/shaders/hairShader.te" />
+        <option value="$PROJECT_DIR$/shaders/hairShader.frag" />
+        <option value="$PROJECT_DIR$/main.cpp" />
       </list>
     </option>
   </component>
@@ -253,18 +282,19 @@
       <workItem from="1557384562381" duration="8750000" />
       <workItem from="1557455167536" duration="1473000" />
       <workItem from="1557468900175" duration="2779000" />
-      <workItem from="1557721139098" duration="2147000" />
+      <workItem from="1557721139098" duration="4679000" />
+      <workItem from="1557812443471" duration="353000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="37655000" />
+    <option name="totallyTimeSpent" value="40540000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1509299" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15307583" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -375,28 +405,8 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/shaders/hairShader.te.glsl" />
     <entry file="file://$PROJECT_DIR$/shaders/regularShader.vert">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="11" selection-start-column="11" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shaders/hairShader.gs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="11" selection-start-column="11" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shaders/hairShader.vert">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="11" selection-start-column="11" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/shaders/hairShader.frag">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="11" selection-start-column="11" selection-end-column="11" />
@@ -410,10 +420,45 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/shaders/hairShader.tc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shaders/hairShader.te">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="17" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shaders/hairShader.vert">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="15" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shaders/hairShader.gs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="19" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/shaders/hairShader.frag">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="53" selection-start-line="9" selection-start-column="53" selection-end-line="9" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
+        <state relative-caret-position="389">
+          <caret line="159" column="49" selection-start-line="159" selection-start-column="48" selection-end-line="159" selection-end-column="49" />
           <folding>
             <element signature="e#248#266#0" expanded="true" />
             <element signature="e#403#431#0" expanded="true" />
