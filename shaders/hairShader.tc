@@ -1,21 +1,36 @@
 #version 410 core
 // Tutorial on: http://in2gpu.com/2014/07/12/tessellation-tutorial-opengl-4-3/
 
+/*** Layout ***/
 // Specify the number of vertices per patch
 layout (vertices = 3) out;
 
-in vec2 texCoord[];
-out vec2 tcTexCoord[];
+/*** Input Variables (from Vertex Shader) ***/
+in vec3 vsNormal[];
+in vec2 vsTexCoord[];
+in float vsVertexID[];
 
+/*** Output Variables (to Tesselation Evaluation Shader) ***/
+out vec3 tcNormal[];
+out vec2 tcTexCoord[];
+out float tcVertexID[];
+
+/*** Variables ***/
+float tesselationAmount = 1.0f;
+//float tesselationAmount = 5.0f;
+
+/*** Main ***/
 void main(){
     // Passthrough without altering anything
     if(gl_InvocationID == 0){
-        gl_TessLevelInner[0] = 1.0;
-        gl_TessLevelOuter[0] = 1.0;
-        gl_TessLevelOuter[1] = 1.0;
-        gl_TessLevelOuter[2] = 1.0;
+        gl_TessLevelInner[0] = tesselationAmount;
+        gl_TessLevelOuter[0] = tesselationAmount;
+        gl_TessLevelOuter[1] = tesselationAmount;
+        gl_TessLevelOuter[2] = tesselationAmount;
     }
     // For quads specify both gl_TessLevelInner[1] and gl_TessLevelOuter[3]
     gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
-    tcTexCoord[gl_InvocationID] = texCoord[gl_InvocationID];
+    tcNormal[gl_InvocationID] = vsNormal[gl_InvocationID];
+    tcTexCoord[gl_InvocationID] = vsTexCoord[gl_InvocationID];
+    tcVertexID[gl_InvocationID] = vsVertexID[gl_InvocationID];
 }

@@ -38,52 +38,51 @@ int Texture::loadUncompressedTGA(FILE *TGAfile) // Load an uncompressed TGA
 
     this->width  = tga.header[1] * 256 + tga.header[0];		// Determine the TGA Width	(highbyte*256+lowbyte)
     this->height = tga.header[3] * 256 + tga.header[2];		// Determine the TGA Height	(highbyte*256+lowbyte)
-    this->bpp	= tga.header[4];							        // Determine the bits per pixel
+    this->bpp	 = tga.header[4];							// Determine the bits per pixel
     tga.width		= this->width;							// Copy width into local structure
     tga.height		= this->height;							// Copy height into local structure
-    tga.bpp			= this->bpp;								    // Copy BPP into local structure
+    tga.bpp			= this->bpp;							// Copy BPP into local structure
 
     if((this->width <= 0) || (this->height <= 0)
-       || ((this->bpp != 24) && (this->bpp !=32)))		// Make sure all information is valid
+       || ((this->bpp != 24) && (this->bpp !=32)))		    // Make sure all information is valid
     {
         fprintf(stderr, "Invalid texture information.\n");		// Display Error
-        if(TGAfile != NULL)										// Check if file is still open
-        {
-            fclose(TGAfile);										// If so, close it
+        if(TGAfile != NULL)	{									// Check if file is still open
+            fclose(TGAfile);								    // If so, close it
         }
         return GL_FALSE;										// Return "failure"
     }
 
-    if(bpp == 24)										// If the the image is 24 BPP
+    if(bpp == 24)										    // If the the image is 24 BPP
     {
         this->type	= GL_RGB;								// Set image type to GL_RGB
         printf("Texture type is GL_RGB\n");
     }
-    else														// Else it's 32 BPP
+    else													// Else it's 32 BPP
     {
         this->type	= GL_RGBA;								// Set image type to GL_RGBA
         printf("Texture type is GL_RGBA\n");
     }
 
-    tga.bytesPerPixel	= (tga.bpp / 8);						// Compute the number of BYTES per pixel
+    tga.bytesPerPixel	= (tga.bpp / 8);						        // Compute the number of BYTES per pixel
     tga.imageSize		= (tga.bytesPerPixel * tga.width * tga.height);	// Compute the total amount of memory needed
     this->imageData = new GLubyte[tga.imageSize];				        // Allocate that much memory
 
-    if(this->imageData == NULL)										// If no space was allocated
+    if(this->imageData == NULL)										    // If no space was allocated
     {
         fprintf(stderr, "Could not allocate memory for image.\n");		// Display Error
-        fclose(TGAfile);													// Close the file
+        fclose(TGAfile);												// Close the file
         return GL_FALSE;												// Return "failure"
     }
 
     if(fread(this->imageData, 1, tga.imageSize, TGAfile) != tga.imageSize)	// Attempt to read image data
     {
         fprintf(stderr, "Could not read image data.\n");					// Display error
-        if(this->imageData != NULL)										// If image data was allocated
+        if(this->imageData != NULL)										    // If image data was allocated
         {
             delete[] this->imageData;										// Deallocate that data
         }
-        fclose(TGAfile);														// Close file
+        fclose(TGAfile);													// Close file
         return GL_FALSE;													// Return "failure"
     }
 
@@ -97,7 +96,7 @@ int Texture::loadUncompressedTGA(FILE *TGAfile) // Load an uncompressed TGA
     }
 
     fclose(TGAfile);			// Close file
-    return GL_TRUE;			// Return success
+    return GL_TRUE;			    // Return success
 }
 
 /*
@@ -125,7 +124,7 @@ int Texture::loadTGA(const char *filename)
         fprintf(stderr, "Could not read file header.\n");	// If it fails, display an error message
         if(TGAfile != NULL)									// Check to see if file is still open
         {
-            fclose(TGAfile);									// If it is, close it
+            fclose(TGAfile);								// If it is, close it
         }
         return GL_FALSE;									// Exit with failure
     }

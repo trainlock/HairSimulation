@@ -56,8 +56,8 @@ void MeshObject::createTriangle() {
     // coordinate xyz, normal xyz, texcoords st
     const GLfloat vertex_array_data[] = {
             -1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // Vertex 0
-            1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 0.0f, // Vertex 1
-            0.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.5f, 1.0f  // Vertex 2
+             1.0f, -1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   1.0f, 0.0f, // Vertex 1
+             0.0f,  1.0f, 0.0f,   0.0f, 0.0f, 1.0f,   0.5f, 1.0f  // Vertex 2
     };
     const GLuint index_array_data[] = {
             0,1,2
@@ -665,12 +665,7 @@ void MeshObject::printInfo() {
 
 /* Render the geometry in a MeshObject object */
 void MeshObject::render(bool tesselationShadersUsed) {
-    glBindVertexArray(vao);
-    glDrawElements(GL_TRIANGLES, 3 * ntris, GL_UNSIGNED_INT, (void*)0);
-    // (mode, vertex count, type, element array buffer offset)
-    glBindVertexArray(0);
-
-    /*
+    ///*
     glBindVertexArray(vao);
     if(tesselationShadersUsed)
         glDrawElements(GL_PATCHES, 3 * ntris, GL_UNSIGNED_INT, (void*)0);
@@ -678,7 +673,7 @@ void MeshObject::render(bool tesselationShadersUsed) {
         glDrawElements(GL_TRIANGLES, 3 * ntris, GL_UNSIGNED_INT, (void*)0); // If tesselation shaders are not used
     // (mode, vertex count, type, element array buffer offset)
     glBindVertexArray(0);
-     */
+    // */
 };
 
 /*

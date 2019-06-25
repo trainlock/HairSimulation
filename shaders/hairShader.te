@@ -1,22 +1,37 @@
 #version 410 core
 // Tutorial on: http://in2gpu.com/2014/07/12/tessellation-tutorial-opengl-4-3/
-
+/*** Layout ***/
 layout (triangles, equal_spacing, cw) in;
 
+/*** Uniform Variables ***/
 //uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
+/*** Input Variables (from Tesselation Control Shader) ***/
+in vec3 tcNormal[];
 in vec2 tcTexCoord[];
-out vec2 teTexCoord;
+in float tcVertexID[];
 
+/*** Output Variables (to Geometry Shader) ***/
+out vec3 teNormal;
+out vec2 teTexCoord;
+out vec3 teVertexID; // Several IDs
+out vec3 tessCoord;
+
+/*** Main ***/
 void main(){
     // Passthrough without altering anything
-    gl_Position = projection * view * (gl_TessCoord.x * gl_in[0].gl_Position
+    gl_Position = (gl_TessCoord.x * gl_in[0].gl_Position
                 +  gl_TessCoord.y * gl_in[1].gl_Position
                 +  gl_TessCoord.z * gl_in[2].gl_Position);
+
+    teNormal = tcNormal[0]; // Should be the same normal over the whole triangle
 
     teTexCoord  = (gl_TessCoord.x * tcTexCoord[0]
                 +  gl_TessCoord.y * tcTexCoord[1]
                 +  gl_TessCoord.z * tcTexCoord[2]);
+
+    teVertexID = vec3(tcVertexID[0], tcVertexID[1], tcVertexID[2]);
+    tessCoord = gl_TessCoord;
 }
