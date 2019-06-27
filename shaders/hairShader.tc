@@ -16,8 +16,8 @@ out vec2 tcTexCoord[];
 out float tcVertexID[];
 
 /*** Variables ***/
-float tesselationAmount = 1.0f;
-//float tesselationAmount = 5.0f;
+//float tesselationAmount = 1.0f;
+float tesselationAmount = 5.0f;
 
 /*** Main ***/
 void main(){

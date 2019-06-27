@@ -32,6 +32,7 @@ float offsetHeight = (1.0f / nrMasterStrands) * 0.5f;
 
 /*** Function Declerations ***/
 vec3 getHairPositionFromTexture(float vertexIndex, int hairIndex);
+vec3 interpolateHairSegments(int index, int hairIndex);
 void generateHairStrands(int index);
 
 /*** Main ***/
@@ -43,6 +44,7 @@ void main() {
 }
 
 /*** Functions ***/
+// Get position of hair from texture
 vec3 getHairPositionFromTexture(float vertexIndex, int hairIndex){
     // Find position of the base of the hair strands
     vec2 hairStrandPosition = vec2(offsetWidth, (vertexIndex / nrMasterStrands) + offsetHeight);
@@ -51,32 +53,34 @@ vec3 getHairPositionFromTexture(float vertexIndex, int hairIndex){
     return vec3(texture(hairDataTexture, hairStrandPosition));
 }
 
+// Get interpolated position of hair segment
+vec3 interpolateHairSegments(int index, int hairIndex){
+    vec3 hairStrandPos0 = getHairPositionFromTexture(teVertexID[index].x, hairIndex);
+    vec3 hairStrandPos1 = getHairPositionFromTexture(teVertexID[index].y, hairIndex);
+    vec3 hairStrandPos2 = getHairPositionFromTexture(teVertexID[index].z, hairIndex);
+
+    vec3 hairPos =  tessCoord[index].x * hairStrandPos0 +
+                    tessCoord[index].y * hairStrandPos1 +
+                    tessCoord[index].z * hairStrandPos2;
+
+    return hairPos;
+}
+
 // Generate the hair strand for the given index
 void generateHairStrands(int index){
     // Generate master strand (base)
     gl_Position = gl_in[index].gl_Position;
     gsTexCoord = teTexCoord[index];
     EmitVertex();
-    int zero = 0;
+    vec3 hairPos;
 
     // Generate hair segments
     for(int hairIndex = 0; hairIndex < MAX_HAIR_INDEX; hairIndex++){
-        // TOOD: Move to a separate function
         // Find vertex from tesselation texture
-        vec3 hairStrandPos0 = getHairPositionFromTexture(teVertexID[index].x, zero);
-        vec3 hairStrandPos1 = getHairPositionFromTexture(teVertexID[index].y, zero);
-        vec3 hairStrandPos2 = getHairPositionFromTexture(teVertexID[index].z, zero);
-
-        vec3 hairPos =  tessCoord[index].x * hairStrandPos0 +
-                        tessCoord[index].y * hairStrandPos1 +
-                        tessCoord[index].z * hairStrandPos2;
-
+        hairPos = interpolateHairSegments(index, hairIndex);
         gl_Position = projection * view * vec4(hairPos, 1.0f);
         gsTexCoord = teTexCoord[index];
         EmitVertex();
     }
-    //gl_Position = gl_in[index].gl_Position + vec4(teNormal[index], 0.0) * MAGNITUDE;
-    //gsTexCoord = teTexCoord[index];
-    //EmitVertex();
     EndPrimitive();
 }

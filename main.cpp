@@ -29,7 +29,7 @@
  *******************************************/
 
 // Window dimensions
-//const GLuint WIDTH = 1920, HEIGHT = 1080;
+//const GLuint WIDTH = 1920, HEIGHT = 1080; // HD
 const GLuint WIDTH = 800, HEIGHT = 600;
 
 // Time variables
@@ -338,24 +338,25 @@ GLuint createMasterStrands(const MeshObject& meshObject){
         // Add hair vertices
         for(int hairSegment = 1; hairSegment <= nrHairSegments; hairSegment++){
             glm::vec3 newPos = rootPos + lengthHairSegment * hairSegment * rootNormal; // xyz-pos
-            //std::cout << "newPos = " << glm::to_string(newPos) << std::endl;
+            std::cout << "newPos = " << glm::to_string(newPos) << std::endl;
 
             // Add position to hair data (each coordinate has its own entry)
             hairData[hairStrandIndex++] = newPos.x;
             hairData[hairStrandIndex++] = newPos.y;
-            hairData[hairStrandIndex++] = newPos.z;
+            hairData[hairStrandIndex++] = newPos.z - 0.1 * pow(lengthHairSegment, 2);
+            std::cout << "hairData Pos.X = " << newPos.z - 0.1 * pow(lengthHairSegment, 2) << std::endl;
 
             // Add normal
-            /*
+            ///*
             hairData[hairStrandIndex++] = rootNormal.x;
             hairData[hairStrandIndex++] = rootNormal.y;
             hairData[hairStrandIndex++] = rootNormal.x;
-             */
-            ///*
+            // */
+            /*
             hairData[hairStrandIndex++] = vertexArray[i+3];
             hairData[hairStrandIndex++] = vertexArray[i+4];
             hairData[hairStrandIndex++] = vertexArray[i+5];
-            // */
+             */
 
             // Add texture to hair data
             hairData[hairStrandIndex++] = vertexArray[i+6];
