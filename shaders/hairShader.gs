@@ -47,7 +47,8 @@ void main() {
 // Get position of hair from texture
 vec3 getHairPositionFromTexture(float vertexIndex, int hairIndex){
     // Find position of the base of the hair strands
-    vec2 hairStrandPosition = vec2(offsetWidth, (vertexIndex / nrMasterStrands) + offsetHeight);
+    // Change position according to which segment and the number of vertices
+    vec2 hairStrandPosition = vec2((hairIndex / nrHairSegments) + offsetWidth, (vertexIndex / nrMasterStrands) + offsetHeight);
 
     // Return hair position for current vertex
     return vec3(texture(hairDataTexture, hairStrandPosition));
@@ -77,6 +78,15 @@ void generateHairStrands(int index){
     // Generate hair segments
     for(int hairIndex = 0; hairIndex < MAX_HAIR_INDEX; hairIndex++){
         // Find vertex from tesselation texture
+        /*
+        vec3 hairStrandPos0 = getHairPositionFromTexture(teVertexID[index].x, hairIndex);
+        vec3 hairStrandPos1 = getHairPositionFromTexture(teVertexID[index].y, hairIndex);
+        vec3 hairStrandPos2 = getHairPositionFromTexture(teVertexID[index].z, hairIndex);
+
+        vec3 hairPos =  tessCoord[index].x * hairStrandPos0 +
+                        tessCoord[index].y * hairStrandPos1 +
+                        tessCoord[index].z * hairStrandPos2;
+        */
         hairPos = interpolateHairSegments(index, hairIndex);
         gl_Position = projection * view * vec4(hairPos, 1.0f);
         gsTexCoord = teTexCoord[index];
