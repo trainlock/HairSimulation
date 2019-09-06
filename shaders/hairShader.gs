@@ -26,6 +26,7 @@ uniform sampler2D hairDataTexture;
 /*** Variables ***/
 const float MAGNITUDE = 0.4;
 const int MAX_HAIR_INDEX = 4;
+const float GRAVITY = -9.82;
 
 float offsetWidth = (1.0f / (nrHairSegments * 3.0f) ) * 0.5f;
 float offsetHeight = (1.0f / nrMasterStrands) * 0.5f;
@@ -69,28 +70,53 @@ vec3 interpolateHairSegments(int index, int hairIndex){
     return hairPos;
 }
 
-// Generate the hair strand for the given index
+// Generate the hair strand for the given index, only one hair strand at a time
 void generateHairStrands(int index){
-    // Generate master strand (base)
-    gl_Position = gl_in[index].gl_Position;
+    // Variables
+    vec3 baseHairPos;
+    vec3 currHairPos; // Hair Segment Pos
+    vec3 nextHairPos; // Hair Segment Pos
+    vec3 velocity;
+    float forces = 1.0; // GRAVITY;
+    float dt = 0.1; // Time step
+
+    // TODO: Precompute rest-state values (DONE)
+
+    // Generate master strand (base), non-movable
+    vec3 prevHairPos = (gl_in[index].gl_Position).xyz;
+    vec3 firstHairPos = interpolateHairSegments(index, 0);
+
+    gl_Position = projection * view * vec4(firstHairPos, 1.0f);
     gsTexCoord = teTexCoord[index];
-    EmitVertex();
-    vec3 hairPos;
+    baseHairPos = prevHairPos;
+    prevHairPos = firstHairPos;
+    EmitVertex(); // Might not need YET
 
+    // TODO: While simulation running do...
     // Generate hair segments
-    for(int hairIndex = 0; hairIndex < MAX_HAIR_INDEX; hairIndex++){
-        // Find vertex from tesselation texture
-        /*
-        vec3 hairStrandPos0 = getHairPositionFromTexture(teVertexID[index].x, hairIndex);
-        vec3 hairStrandPos1 = getHairPositionFromTexture(teVertexID[index].y, hairIndex);
-        vec3 hairStrandPos2 = getHairPositionFromTexture(teVertexID[index].z, hairIndex);
+    for(int hairIndex = 1; hairIndex < MAX_HAIR_INDEX; hairIndex++){
+        // TODO: Compute forces such as gravity or wind
+        // Pi0 = firstHairSegmentPos
 
-        vec3 hairPos =  tessCoord[index].x * hairStrandPos0 +
-                        tessCoord[index].y * hairStrandPos1 +
-                        tessCoord[index].z * hairStrandPos2;
-        */
-        hairPos = interpolateHairSegments(index, hairIndex);
-        gl_Position = projection * view * vec4(hairPos, 1.0f);
+        // hairPos = currentHairPos;
+        currHairPos = interpolateHairSegments(index, hairIndex);
+
+        // TODO: Integrate with Verlet integration scheme
+        // Skip first position (master position)
+        velocity = currHairPos - prevHairPos;
+        nextHairPos = currHairPos + velocity + forces * pow(dt, 2);
+        prevHairPos = currHairPos;
+
+        // TODO: Apply global shape constraints
+        // Pi = Sg(H * Pi0 - Pi)
+
+        // TODO: Apply local shape constraints (while iterating)
+
+        // TODO: Apply edge length constraints
+        // TODO: Collision handling
+
+
+        gl_Position = projection * view * vec4(nextHairPos, 1.0f);
         gsTexCoord = teTexCoord[index];
         EmitVertex();
     }

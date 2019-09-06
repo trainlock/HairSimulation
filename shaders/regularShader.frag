@@ -14,10 +14,7 @@ in vec3 vPosition;
 /*** Output Variables ***/
 out vec4 color;
 
-/*** Main ***/
-void main(){
-    // TODO: Add Phong lightning
-
+vec3 phongLightning(){
     /*
     // Add Phong Lighting Model
     vec3 lightDir = lightPos - vPosition;
@@ -74,7 +71,13 @@ void main(){
     vec3 specular = specularStrength * spec * lightColour;
 
     // Calculate Phong
-    vec3 phong = (ambient + diffuse + specular) * vec3(texture(mainTexture, texCoord));
+    return (ambient + diffuse + specular) * vec3(texture(mainTexture, texCoord));
+}
+
+/*** Main ***/
+void main(){
+    vec3 phong = phongLightning();
+
     color = vec4(phong, 1.0);
     //*/
 }

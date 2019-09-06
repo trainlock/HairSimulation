@@ -54,7 +54,7 @@ glm::mat4 model;
 
 // Master Strands
 float lengthHairSegment = 0.1f; //0.05; //1.0f;
-int nrHairSegments = 1;         // How many segments should each strand of hair have? 3? 5?
+int nrHairSegments = 3;         // How many segments should each strand of hair have? 3? 5?
 
 int nrMasterStrands = 0;
 
