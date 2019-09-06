@@ -14,6 +14,8 @@ out vec3 vsNormal;
 out vec2 vsTexCoord;
 out float vsVertexID;
 
+// TODO: Add constrains to the hair
+
 /*** Main ***/
 void main(){
     gl_Position = projection * view * vec4(position, 1.0);

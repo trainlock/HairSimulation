@@ -44,11 +44,17 @@ float lastX = WIDTH / 2.0f;
 float lastY = HEIGHT / 2.0f;
 bool firstMouse = true;
 
+// Light variables
+//glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec3 lightPos(10.0f, 0.0f, 7.0f); // Same place as camera (for now)
+glm::vec3 lightColour(1.0f, 1.0f, 1.0f);
+
+// Model
 glm::mat4 model;
 
 // Master Strands
 float lengthHairSegment = 0.1f; //0.05; //1.0f;
-int nrHairSegments = 4;         // How many segments should each strand of hair have?
+int nrHairSegments = 1;         // How many segments should each strand of hair have? 3? 5?
 
 int nrMasterStrands = 0;
 
@@ -119,33 +125,32 @@ int main(){
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     /************** Models **************/
-    ///* Triangle
+    /* Triangle
     MeshObject triangle;
     triangle.createTriangle();
-    // */
+     */
 
     /* Box
     MeshObject box;
     box.createBox(2.0, 2.0, 2.0);
      */
 
-    /* Sphere
+    ///* Sphere
     MeshObject sphere;
     sphere.createSphere(2.0, 40);
-     */
-
-    ///*
+    // */
     std::cout << "Created model mesh!" << std::endl;
 
+    // Load texture
     //Texture mainTexture = Texture("../textures/sky.tga");
-    Texture mainTexture = Texture("../textures/wall.tga");
-    //*/
+    //Texture mainTexture = Texture("../textures/wall.tga");
+    Texture mainTexture = Texture("../textures/lightbrown.tga");
 
     /************** Hair **************/
 
-    GLuint hairDataTextureID = createMasterStrands(triangle);
+    //GLuint hairDataTextureID = createMasterStrands(triangle);
     //GLuint hairDataTextureID = createMasterStrands(box);
-    //GLuint hairDataTextureID = createMasterStrands(sphere);
+    GLuint hairDataTextureID = createMasterStrands(sphere);
 
     /************** Shaders **************/
     std::cout << "Setting up shader!" << std::endl;
@@ -160,7 +165,6 @@ int main(){
     std::string hairGeometryFilename = "../shaders/hairShader.gs";
     std::string hairTessCtrlFilename = "../shaders/hairShader.tc";
     std::string hairTessEvalFilename = "../shaders/hairShader.te";
-    //ShaderProgram hairShader(hairVertFilename, "", "", hairGeometryFilename, hairFragFilename);
     ShaderProgram hairShader(hairVertFilename, hairTessCtrlFilename, hairTessEvalFilename, hairGeometryFilename, hairFragFilename);
     hairShader();
 
@@ -173,6 +177,14 @@ int main(){
     GLint viewLocRegular = glGetUniformLocation(regularShader, "view");
     GLint projLocRegular = glGetUniformLocation(regularShader, "projection");
 
+    // Location for camera
+    GLint cameraPosLocRegular = glGetUniformLocation(regularShader, "cameraPos");
+
+    // Location for light
+    GLint lightPosLocRegular = glGetUniformLocation(regularShader, "lightPos");
+    GLint lightColourLocRegular = glGetUniformLocation(regularShader, "lightColour");
+
+    // Location for texture + linking
     GLint mainTextureLocPlain = glGetUniformLocation(regularShader, "mainTexture");
     glUniform1i(mainTextureLocPlain, 0);
 
@@ -182,11 +194,21 @@ int main(){
     GLint viewLocHair = glGetUniformLocation(hairShader, "view");
     GLint projLocHair = glGetUniformLocation(hairShader, "projection");
 
+    // Location for camera
+    GLint cameraPosLocHair = glGetUniformLocation(hairShader, "cameraPos");
+
+    // Location for light
+    GLint lightPosLocHair = glGetUniformLocation(hairShader, "lightPos");
+    GLint lightColourLocHair = glGetUniformLocation(hairShader, "lightColour");
+
+    // Location for textures + linking
     GLint hairDataTextureLocPlain = glGetUniformLocation(hairShader, "hairDataTexture");
     glUniform1i(hairDataTextureLocPlain, 1);
 
+    // Location for hair variables + linking
     GLint nrHairSegmentsLoc = glGetUniformLocation(hairShader, "nrHairSegments");
     GLint nrMasterStrandVerticesLoc = glGetUniformLocation(hairShader, "nrMasterStrands");
+    // Update hair segment info
     glUniform1f(nrHairSegmentsLoc, (float)nrHairSegments);
     glUniform1f(nrMasterStrandVerticesLoc, (float)nrMasterStrands);
 
@@ -213,6 +235,10 @@ int main(){
         glm::mat4 view = camera.GetViewMatrix();
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)WIDTH/(float)HEIGHT, 0.1f, 100.0f);
 
+        // Set position of light source
+        //glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+        // TODO: Rotate and move it if you want to
+
         /************** RENDERING **************/
 
         /************** Regular rendering **************/
@@ -221,9 +247,13 @@ int main(){
         glUniformMatrix4fv(viewLocRegular, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projLocRegular, 1, GL_FALSE, glm::value_ptr(projection));
 
-        triangle.render(false);
+        glUniform3f(cameraPosLocRegular, camera.Position.x, camera.Position.y, camera.Position.z);
+        glUniform3f(lightPosLocRegular, lightPos.x, lightPos.y, lightPos.z);
+        glUniform3f(lightColourLocRegular, lightColour.x, lightColour.y, lightColour.z);
+
+        //triangle.render(false);
         //box.render(false);
-        //sphere.render(false);
+        sphere.render(false);
 
         glActiveTexture(GL_TEXTURE0 + 0); // Texture unit 0
         glBindTexture(GL_TEXTURE_2D, mainTexture.textureID);
@@ -233,6 +263,10 @@ int main(){
         glUniformMatrix4fv(modelLocHair, 1, GL_FALSE, glm::value_ptr(model));
         glUniformMatrix4fv(viewLocHair, 1, GL_FALSE, glm::value_ptr(view));
         glUniformMatrix4fv(projLocHair, 1, GL_FALSE, glm::value_ptr(projection));
+
+        glUniform3f(cameraPosLocHair, camera.Position.x, camera.Position.y, camera.Position.z);
+        glUniform3f(lightPosLocHair, lightPos.x, lightPos.y, lightPos.z);
+        glUniform3f(lightColourLocHair, lightColour.x, lightColour.y, lightColour.z);
 
         ///*
         glActiveTexture(GL_TEXTURE0 + 0); // Texture unit 0
@@ -244,9 +278,9 @@ int main(){
         glBindTexture(GL_TEXTURE_2D, hairDataTextureID);
         // */
 
-        triangle.render(true);
+        //triangle.render(true);
         //box.render(true);
-        //sphere.render(true);
+        sphere.render(true);
 
         /****************************************************/
 
@@ -338,13 +372,11 @@ GLuint createMasterStrands(const MeshObject& meshObject){
         // Add hair vertices
         for(int hairSegment = 1; hairSegment <= nrHairSegments; hairSegment++){
             glm::vec3 newPos = rootPos + lengthHairSegment * hairSegment * rootNormal; // xyz-pos
-            std::cout << "newPos = " << glm::to_string(newPos) << std::endl;
 
             // Add position to hair data (each coordinate has its own entry)
             hairData[hairStrandIndex++] = newPos.x;
             hairData[hairStrandIndex++] = newPos.y;
-            hairData[hairStrandIndex++] = newPos.z - 0.1 * pow(lengthHairSegment, 2);
-            std::cout << "hairData Pos.X = " << newPos.z - 0.1 * pow(lengthHairSegment, 2) << std::endl;
+            hairData[hairStrandIndex++] = newPos.z; // - 0.1 * pow(lengthHairSegment, 2);
 
             // Add normal
             ///*

@@ -37,6 +37,8 @@ void generateHairStrands(int index);
 
 /*** Main ***/
 void main() {
+    //gsNormal = vec3(teNormal.x, teNormal.y, teNormal.z);
+
     // Passthrough without altering the vertex positions
     for(int i = 0; i < gl_in.length(); i++){
         generateHairStrands(i);
