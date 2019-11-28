@@ -28,9 +28,10 @@ void main(){
         gl_TessLevelOuter[1] = tesselationAmount;
         gl_TessLevelOuter[2] = tesselationAmount;
     }
+
     // For quads specify both gl_TessLevelInner[1] and gl_TessLevelOuter[3]
     gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
-    tcNormal[gl_InvocationID] = vsNormal[gl_InvocationID];
+    tcNormal[gl_InvocationID]   = vsNormal[gl_InvocationID];
     tcTexCoord[gl_InvocationID] = vsTexCoord[gl_InvocationID];
     tcVertexID[gl_InvocationID] = vsVertexID[gl_InvocationID];
 }

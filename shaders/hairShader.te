@@ -3,11 +3,6 @@
 /*** Layout ***/
 layout (triangles, equal_spacing, cw) in;
 
-/*** Uniform Variables ***/
-//uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
-
 /*** Input Variables (from Tesselation Control Shader) ***/
 in vec3 tcNormal[];
 in vec2 tcTexCoord[];
@@ -17,7 +12,12 @@ in float tcVertexID[];
 out vec3 teNormal;
 out vec2 teTexCoord;
 out vec3 teVertexID; // Several IDs
-out vec3 tessCoord;
+out vec3 teTessCoord;
+
+/*** Uniform Variables ***/
+//uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
 /*** Main ***/
 void main(){
@@ -33,5 +33,5 @@ void main(){
                 +  gl_TessCoord.z * tcTexCoord[2]);
 
     teVertexID = vec3(tcVertexID[0], tcVertexID[1], tcVertexID[2]);
-    tessCoord = gl_TessCoord;
+    teTessCoord = gl_TessCoord;
 }

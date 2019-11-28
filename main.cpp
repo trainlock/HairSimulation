@@ -54,7 +54,7 @@ glm::mat4 model;
 
 // Master Strands
 float lengthHairSegment = 0.1f; //0.05; //1.0f;
-int nrHairSegments = 3;         // How many segments should each strand of hair have? 3? 5?
+int nrHairSegments = 4;         // How many segments should each strand of hair have? 3? 5?
 
 int nrMasterStrands = 0;
 
@@ -130,15 +130,15 @@ int main(){
     triangle.createTriangle();
      */
 
-    /* Box
+    ///* Box
     MeshObject box;
     box.createBox(2.0, 2.0, 2.0);
-     */
+    // */
 
-    ///* Sphere
+    /* Sphere
     MeshObject sphere;
     sphere.createSphere(2.0, 40);
-    // */
+     */
     std::cout << "Created model mesh!" << std::endl;
 
     // Load texture
@@ -149,8 +149,8 @@ int main(){
     /************** Hair **************/
 
     //GLuint hairDataTextureID = createMasterStrands(triangle);
-    //GLuint hairDataTextureID = createMasterStrands(box);
-    GLuint hairDataTextureID = createMasterStrands(sphere);
+    GLuint hairDataTextureID = createMasterStrands(box);
+    //GLuint hairDataTextureID = createMasterStrands(sphere);
 
     /************** Shaders **************/
     std::cout << "Setting up shader!" << std::endl;
@@ -252,8 +252,8 @@ int main(){
         glUniform3f(lightColourLocRegular, lightColour.x, lightColour.y, lightColour.z);
 
         //triangle.render(false);
-        //box.render(false);
-        sphere.render(false);
+        box.render(false);
+        //sphere.render(false);
 
         glActiveTexture(GL_TEXTURE0 + 0); // Texture unit 0
         glBindTexture(GL_TEXTURE_2D, mainTexture.textureID);
@@ -279,8 +279,8 @@ int main(){
         // */
 
         //triangle.render(true);
-        //box.render(true);
-        sphere.render(true);
+        box.render(true);
+        //sphere.render(true);
 
         /****************************************************/
 
@@ -354,6 +354,7 @@ void processInput(GLFWwindow *window){
 GLuint createMasterStrands(const MeshObject& meshObject){
     GLfloat* vertexArray = meshObject.getVertexArray(); // VertexArray consists of vertices (3), normals (3) and texture (2)
     nrMasterStrands = meshObject.getNoOfVertices();
+    std::cout << "NrMasterStrands = " << nrMasterStrands << std::endl;
 
     // Size of new array, include all type of data (vertices, normal and texture)
     GLfloat* hairData = new GLfloat[nrMasterStrands * (nrHairSegments * 9)];
@@ -366,7 +367,7 @@ GLuint createMasterStrands(const MeshObject& meshObject){
         glm::vec3 rootPos = glm::vec3(vertexArray[i], vertexArray[i+1], vertexArray[i+2]);      // The vertices
         glm::vec3 rootNormal = glm::vec3(vertexArray[i+3], vertexArray[i+4], vertexArray[i+5]); // The normals
 
-        std::cout << "CMS: RootPos = " << glm::to_string(rootPos) << std::endl;
+        //std::cout << "CMS: RootPos = " << glm::to_string(rootPos) << std::endl;
         //std::cout << "CMS: RootNormal = " << glm::to_string(rootNormal) << std::endl;
 
         // Add hair vertices
@@ -375,14 +376,14 @@ GLuint createMasterStrands(const MeshObject& meshObject){
 
             // Add position to hair data (each coordinate has its own entry)
             hairData[hairStrandIndex++] = newPos.x;
-            hairData[hairStrandIndex++] = newPos.y;
-            hairData[hairStrandIndex++] = newPos.z; // - 0.1 * pow(lengthHairSegment, 2);
+            hairData[hairStrandIndex++] = newPos.y; // - 0.1 * pow(lengthHairSegment, 2);
+            hairData[hairStrandIndex++] = newPos.z;
 
             // Add normal
             ///*
             hairData[hairStrandIndex++] = rootNormal.x;
             hairData[hairStrandIndex++] = rootNormal.y;
-            hairData[hairStrandIndex++] = rootNormal.x;
+            hairData[hairStrandIndex++] = rootNormal.z;
             // */
             /*
             hairData[hairStrandIndex++] = vertexArray[i+3];
@@ -395,9 +396,9 @@ GLuint createMasterStrands(const MeshObject& meshObject){
             hairData[hairStrandIndex++] = vertexArray[i+7];
             hairData[hairStrandIndex++] = 0.0f;
 
-            std::cout << "CMS: newPos = " << glm::to_string(newPos) << std::endl;
+            //std::cout << "CMS: newPos = " << glm::to_string(newPos) << std::endl;
         }
-        std::cout << std::endl;
+        //std::cout << std::endl;
     }
 
     /*** Bind texture for the strands ***/
